@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: iso-8859-15 -*-
 
+"""
+At the moment I'm running all the tests manually.
+"""
+
 from cyvec import vec2
 
 v1 = vec2(1, 2.4)
