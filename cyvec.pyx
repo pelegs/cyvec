@@ -214,3 +214,18 @@ cdef class vec2:
     
     cpdef bint ge(self, v):
         return abs(self) >= abs(v)
+    
+    ###################
+    # OTHER OPERATORS #
+    ###################
+
+    cpdef vec2 normalize(self):
+        return self/abs(self)
+
+    cpdef vec2 rotate(self, double ang):
+        cdef c = cos(ang)
+        cdef s = sin(ang)
+        return vec2(self.x*c-self.y*s, self.x*s+self.y*c)
+
+    cpdef vec2 scaleto(self, double mag):
+        return self.normalize()*mag
