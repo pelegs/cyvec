@@ -2,12 +2,14 @@ import numpy as np
 cimport numpy as np
 cimport cython
 import cython
-from libc.math cimport sqrt, abs, exp, sin, cos
+from libc.math cimport sqrt, abs, exp, sin, cos, pi
 #cython: boundscheck=False, wraparound=False, nonecheck=False, language_level=3
 
 
 REALNUMS = [int, long, float]
 cdef bint boolean_variable = True
+cdef pi_2 = pi/2
+
 
 ctypedef fused realnum:
     cython.int
@@ -218,7 +220,7 @@ cdef class vec2:
     ###################
     # OTHER OPERATORS #
     ###################
-
+    
     cpdef vec2 normalize(self):
         return self/abs(self)
 
@@ -226,6 +228,10 @@ cdef class vec2:
         cdef c = cos(ang)
         cdef s = sin(ang)
         return vec2(self.x*c-self.y*s, self.x*s+self.y*c)
+    
+    cpdef vec2 normal_vec(self):
+        # Returns a normal vec to self
+        return self.rotate(pi_2).normalize()
 
     cpdef vec2 scaleto(self, double mag):
         return self.normalize()*mag
@@ -233,11 +239,22 @@ cdef class vec2:
     def to_screen(self):
         return (int(self.x), int(self.y))
 
+    cpdef vec2 reflect(self, vec2 dir):
+        # Returns the vector reflected
+        # across dir
+        cdef vec2 n = dir.normal_vec()
+        return self - 2*(self*n)*n
+
 
 ###################
 # OTHER FUNCTIONS #
 ###################
 
+cpdef vec2 vec2_from_np(double[:] arr):
+    return vec2(arr[0], arr[1])
+
+cpdef np.ndarray[double, ndim=1] np_from_vec2(vec2 v):
+    return np.array([v.x, v.y])
 
 cpdef vec2 look_at(vec2 start, vec2 target):
     return (target - start).normalize()

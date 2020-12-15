@@ -6,10 +6,13 @@ At the moment I'm running all the tests manually.
 """
 
 from cyvec import *
-from numpy import pi, sqrt
+import numpy as np
 
 
-star = vec2(0,0)
-planet_pos = vec2(10,0)
-planet_vel = vec2(0,5)
-G = 1E3
+arr = np.random.uniform(size=2)
+print(arr)
+v = vec2_from_np(arr)
+print(v)
+arr2 = np_from_vec2(v)
+print(arr2)
+print(np.array_equal(arr, arr2))
