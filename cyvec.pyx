@@ -230,11 +230,8 @@ cdef class vec2:
     cpdef vec2 scaleto(self, double mag):
         return self.normalize()*mag
 
-    cdef int[:] to_screen_c(self):
-        return np.array([self.x, self.y], dtype=int)
-
     def to_screen(self):
-        return self.to_screen_c().tolist()
+        return (int(self.x), int(self.y))
 
 
 ###################
