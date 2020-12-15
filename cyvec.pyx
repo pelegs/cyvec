@@ -177,42 +177,42 @@ cdef class vec2:
     def __eq__(self, v):
         return self.eq(v)
 
-    cpdef bint eq(self, v):
+    cpdef bint eq(self, vec2 v):
         return (self.x == v.x) and (self.y == v.y)
     
     # Non-equality
     def __ne__(self, v):
         return self.ne(v)
 
-    cpdef bint ne(self, v):
+    cpdef bint ne(self, vec2 v):
         return (self.x != v.x) or (self.y != v.y)
 
     # Less than
     def __lt__(self, v):
         return self.lt(v)
 
-    cpdef bint lt(self, v):
+    cpdef bint lt(self, vec2 v):
         return abs(self) < abs(v)
 
     # Less than or equal to
     def __le__(self, v):
         return self.le(v)
     
-    cpdef bint le(self, v):
+    cpdef bint le(self, vec2 v):
         return abs(self) <= abs(v)
 
     # Greater than
     def __gt__(self, v):
         return self.gt(v)
 
-    cpdef bint gt(self, v):
+    cpdef bint gt(self, vec2 v):
         return abs(self) > abs(v)
 
     # Greater than or equal to
     def __ge__(self, v):
         return self.ge(v)
     
-    cpdef bint ge(self, v):
+    cpdef bint ge(self, vec2 v):
         return abs(self) >= abs(v)
     
     ###################
@@ -229,3 +229,24 @@ cdef class vec2:
 
     cpdef vec2 scaleto(self, double mag):
         return self.normalize()*mag
+
+    cdef int[:] to_screen_c(self):
+        return np.array([self.x, self.y], dtype=int)
+
+    def to_screen(self):
+        return self.to_screen_c().tolist()
+
+
+###################
+# OTHER FUNCTIONS #
+###################
+
+
+cpdef vec2 look_at(vec2 start, vec2 target):
+    return (target - start).normalize()
+
+cpdef double distance(vec2 u, vec2 v):
+    return abs(u-v)
+
+cpdef double distance_sqr(vec2 u, vec2 v):
+    return (u.x-v.x)**2 + (u.y-v.y)**2
